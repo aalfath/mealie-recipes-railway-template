@@ -1,0 +1,19 @@
+# Local test only (not used by Railway).
+services:
+  app:
+    build: .
+    labels: { her: "2462" }
+    ports: ["9000"]
+    environment:
+      PORT: "9000"
+      BASE_URL: http://localhost:9000
+      POSTGRES_URL_OVERRIDE: postgresql://postgres:pgtestpw@postgres:5432/railway
+      MEALIE_ADMIN_PASSWORD: ${ADMIN_PW:-LocalTestPassw0rd}
+      MEALIE_ADMIN_EMAIL: ${ADMIN_EMAIL:-}
+    volumes: [data:/app/data]
+  postgres:
+    image: postgres:17
+    labels: { her: "2462" }
+    environment: { POSTGRES_PASSWORD: pgtestpw, POSTGRES_DB: railway }
+    volumes: [pg:/var/lib/postgresql/data]
+volumes: { pg: {}, data: {} }
